@@ -25,7 +25,7 @@
 body {
   font-family: 'Inter', sans-serif;
   background: var(--bg);
-  padding: 40px 48px 48px;
+  padding: 28px 28px 36px;
   min-height: 100vh;
 }
 
@@ -34,26 +34,26 @@ body {
   font-size: 11px; font-weight: 600;
   letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--green-soft);
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 /* ── NAV TILES GRID ── */
 .nav-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 18px;
-  margin-bottom: 48px;
+  gap: 12px;
+  margin-bottom: 36px;
 }
 
 .nav-tile {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 32px 20px 28px;
+  padding: 22px 12px 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 14px;
   cursor: pointer;
   text-decoration: none;
   transition: transform 0.18s, border-color 0.18s, background 0.18s, box-shadow 0.18s;
@@ -81,38 +81,39 @@ body {
 .nav-tile:hover::before { opacity: 1; }
 
 .tile-icon {
-  width: 64px; height: 64px;
+  width: 52px; height: 52px;
   border-radius: 14px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 28px;
+  font-size: 24px;
   background: var(--tile-bg, rgba(111,174,125,0.12));
   border: 1px solid var(--tile-border, rgba(111,174,125,0.2));
   transition: transform 0.18s;
+  flex-shrink: 0;
 }
 
 .nav-tile:hover .tile-icon { transform: scale(1.08); }
 
-.tile-body { text-align: center; }
+.tile-body { text-align: center; width: 100%; }
 
 .tile-name {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 15px; font-weight: 600;
+  font-size: 12px; font-weight: 600;
   color: var(--cream);
   line-height: 1.3;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 
 .tile-desc {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--dim);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   line-height: 1.4;
 }
 
 .tile-badge {
   position: absolute;
-  top: 10px; right: 10px;
-  padding: 2px 8px;
+  top: 8px; right: 8px;
+  padding: 2px 7px;
   border-radius: 999px;
   font-size: 9px; font-weight: 600;
   letter-spacing: 0.06em;
@@ -131,21 +132,21 @@ body {
   border: 1px solid rgba(232,168,76,0.25);
 }
 
-/* ── SECOND ROW: QUICK ACCESS ── */
+/* ── QUICK ACCESS ── */
 .quick-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  gap: 12px;
 }
 
 .quick-tile {
   background: rgba(17,46,46,0.5);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 16px 20px;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 12px;
   cursor: pointer;
   text-decoration: none;
   transition: background 0.18s, border-color 0.18s;
@@ -157,39 +158,80 @@ body {
 }
 
 .quick-icon {
-  width: 38px; height: 38px; flex-shrink: 0;
-  border-radius: 10px;
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 9px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
+  font-size: 17px;
   background: rgba(111,174,125,0.08);
   border: 1px solid rgba(111,174,125,0.15);
 }
 
-.quick-body {}
 .quick-name {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 13px; font-weight: 600; color: var(--cream);
+  font-size: 12px; font-weight: 600; color: var(--cream);
 }
-.quick-sub { font-size: 11px; color: var(--dim); margin-top: 3px; }
+.quick-sub { font-size: 10px; color: var(--dim); margin-top: 2px; }
 
 .arrow {
   margin-left: auto;
   color: var(--dim);
   font-size: 16px;
   transition: transform 0.18s, color 0.18s;
+  flex-shrink: 0;
 }
 .quick-tile:hover .arrow {
   transform: translateX(3px);
   color: var(--green);
 }
 
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  body { padding: 20px 16px 28px; }
+
+  .nav-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .nav-tile {
+    padding: 20px 14px 16px;
+    border-radius: 14px;
+    gap: 12px;
+  }
+
+  .tile-name { font-size: 13px; }
+  .tile-desc { font-size: 11px; }
+
+  .tile-icon {
+    width: 48px; height: 48px;
+    font-size: 22px;
+  }
+
+  .quick-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .quick-tile { padding: 14px; }
+  .quick-name { font-size: 13px; }
+  .quick-sub { font-size: 11px; }
+}
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .nav-grid { grid-template-columns: repeat(3, 1fr); }
+  .quick-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(111,174,125,0.2); border-radius: 99px; }
 </style>
 </head>
 <body>
 
 <div class="section-label">Control Hub Navigation</div>
 
-<!-- MAIN NAV TILES -->
 <div class="nav-grid">
 
   <a class="nav-tile" href="https://audiopinesolutions902.sharepoint.com/:u:/r/sites/APSControlHub/SitePages/aps---dashboard.aspx?csf=1&web=1&share=IQDUxYvN3OdjQJztgKpaVdlgAaV5yXdaeAiOuAbRWAI_qBA&e=6XmgNQ" target="_top" style="--tile-color:#4caf74;--tile-bg:rgba(76,175,116,0.12);--tile-border:rgba(76,175,116,0.2)">
@@ -234,7 +276,7 @@ body {
     </div>
   </a>
 
-  <a class="nav-tile" href="#" target="_top" style="--tile-color:#8fc19e;--tile-bg:rgba(143,193,158,0.08);--tile-border:rgba(143,193,158,0.15); opacity:0.7; cursor:default;">
+  <a class="nav-tile" href="#" target="_top" style="--tile-color:#8fc19e;--tile-bg:rgba(143,193,158,0.08);--tile-border:rgba(143,193,158,0.15); opacity:0.65; cursor:default;">
     <div class="tile-icon">🎓</div>
     <div class="tile-body">
       <div class="tile-name">Learning Hub</div>
@@ -244,7 +286,6 @@ body {
 
 </div>
 
-<!-- QUICK ACCESS ROW -->
 <div class="section-label">Quick Access</div>
 <div class="quick-grid">
 
