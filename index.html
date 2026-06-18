@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APS Navigation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0a2230;
+  --card:      #112e2e;
+  --border:    rgba(243,237,224,0.09);
+  --green:     #6fae7d;
+  --green-soft:#8fc19e;
+  --cream:     #f3ede0;
+  --muted:     #c7d6cf;
+  --dim:       rgba(199,214,207,0.45);
+  --active:    #4caf74;
+  --warm:      #e8a84c;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  padding: 32px 40px 40px;
+  min-height: 100vh;
+}
+
+.section-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--green-soft);
+  margin-bottom: 20px;
+}
+
+/* ── NAV TILES GRID ── */
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.nav-tile {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.18s, border-color 0.18s, background 0.18s, box-shadow 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-tile::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--tile-color, var(--green));
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+
+.nav-tile:hover {
+  transform: translateY(-4px);
+  border-color: var(--tile-color, var(--green));
+  background: rgba(17,46,46,0.9);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+}
+
+.nav-tile:hover::before { opacity: 1; }
+
+.tile-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  background: var(--tile-bg, rgba(111,174,125,0.12));
+  border: 1px solid var(--tile-border, rgba(111,174,125,0.2));
+  transition: transform 0.18s;
+}
+
+.nav-tile:hover .tile-icon { transform: scale(1.08); }
+
+.tile-body { text-align: center; }
+
+.tile-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--cream);
+  line-height: 1.3;
+  margin-bottom: 5px;
+}
+
+.tile-desc {
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+
+.tile-badge {
+  position: absolute;
+  top: 10px; right: 10px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge-live {
+  background: rgba(76,175,116,0.15);
+  color: var(--active);
+  border: 1px solid rgba(76,175,116,0.25);
+}
+
+.badge-warm {
+  background: rgba(232,168,76,0.15);
+  color: var(--warm);
+  border: 1px solid rgba(232,168,76,0.25);
+}
+
+/* ── SECOND ROW: QUICK ACCESS ── */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.quick-tile {
+  background: rgba(17,46,46,0.5);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.18s, border-color 0.18s;
+}
+
+.quick-tile:hover {
+  background: rgba(111,174,125,0.06);
+  border-color: rgba(111,174,125,0.25);
+}
+
+.quick-icon {
+  width: 38px; height: 38px; flex-shrink: 0;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  background: rgba(111,174,125,0.08);
+  border: 1px solid rgba(111,174,125,0.15);
+}
+
+.quick-body {}
+.quick-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px; font-weight: 600; color: var(--cream);
+}
+.quick-sub { font-size: 11px; color: var(--dim); margin-top: 3px; }
+
+.arrow {
+  margin-left: auto;
+  color: var(--dim);
+  font-size: 16px;
+  transition: transform 0.18s, color 0.18s;
+}
+.quick-tile:hover .arrow {
+  transform: translateX(3px);
+  color: var(--green);
+}
+
+</style>
+</head>
+<body>
+
+<div class="section-label">Control Hub Navigation</div>
+
+<!-- MAIN NAV TILES -->
+<div class="nav-grid">
+
+  <a class="nav-tile" href="#" style="--tile-color:#4caf74;--tile-bg:rgba(76,175,116,0.12);--tile-border:rgba(76,175,116,0.2)">
+    <span class="tile-badge badge-live">Live</span>
+    <div class="tile-icon">📊</div>
+    <div class="tile-body">
+      <div class="tile-name">Operations Dashboard</div>
+      <div class="tile-desc">KPIs, projects & daily focus</div>
+    </div>
+  </a>
+
+  <a class="nav-tile" href="#" style="--tile-color:#88a8e8;--tile-bg:rgba(100,149,237,0.12);--tile-border:rgba(100,149,237,0.2)">
+    <div class="tile-icon">📁</div>
+    <div class="tile-body">
+      <div class="tile-name">Project Registry</div>
+      <div class="tile-desc">All projects & status tracking</div>
+    </div>
+  </a>
+
+  <a class="nav-tile" href="#" style="--tile-color:#e8a84c;--tile-bg:rgba(232,168,76,0.12);--tile-border:rgba(232,168,76,0.2)">
+    <span class="tile-badge badge-warm">3 Warm</span>
+    <div class="tile-icon">🤝</div>
+    <div class="tile-body">
+      <div class="tile-name">CRM Pipeline</div>
+      <div class="tile-desc">Leads, clients & pipeline</div>
+    </div>
+  </a>
+
+  <a class="nav-tile" href="#" style="--tile-color:#6fae7d;--tile-bg:rgba(111,174,125,0.12);--tile-border:rgba(111,174,125,0.2)">
+    <div class="tile-icon">📄</div>
+    <div class="tile-body">
+      <div class="tile-name">Documents</div>
+      <div class="tile-desc">Files, folders & archives</div>
+    </div>
+  </a>
+
+  <a class="nav-tile" href="#" style="--tile-color:#c88fc8;--tile-bg:rgba(200,130,200,0.12);--tile-border:rgba(200,130,200,0.2)">
+    <div class="tile-icon">💰</div>
+    <div class="tile-body">
+      <div class="tile-name">Finance</div>
+      <div class="tile-desc">Revenue, invoices & budgets</div>
+    </div>
+  </a>
+
+  <a class="nav-tile" href="#" style="--tile-color:#8fc19e;--tile-bg:rgba(143,193,158,0.12);--tile-border:rgba(143,193,158,0.2)">
+    <div class="tile-icon">🎓</div>
+    <div class="tile-body">
+      <div class="tile-name">Learning Hub</div>
+      <div class="tile-desc">Playbook, guides & resources</div>
+    </div>
+  </a>
+
+</div>
+
+<!-- QUICK ACCESS ROW -->
+<div class="section-label">Quick Access</div>
+<div class="quick-grid">
+
+  <a class="quick-tile" href="#">
+    <div class="quick-icon">📋</div>
+    <div class="quick-body">
+      <div class="quick-name">APS Weekly Command</div>
+      <div class="quick-sub">Weekly planning & priorities</div>
+    </div>
+    <span class="arrow">›</span>
+  </a>
+
+  <a class="quick-tile" href="#">
+    <div class="quick-icon">📓</div>
+    <div class="quick-body">
+      <div class="quick-name">APS Playbook V2.0</div>
+      <div class="quick-sub">Operational guide & strategy</div>
+    </div>
+    <span class="arrow">›</span>
+  </a>
+
+  <a class="quick-tile" href="#">
+    <div class="quick-icon">✅</div>
+    <div class="quick-body">
+      <div class="quick-name">Microsoft Planner</div>
+      <div class="quick-sub">Tasks & team assignments</div>
+    </div>
+    <span class="arrow">›</span>
+  </a>
+
+  <a class="quick-tile" href="#">
+    <div class="quick-icon">📊</div>
+    <div class="quick-body">
+      <div class="quick-name">30-Day Execution Tracker</div>
+      <div class="quick-sub">Milestones & directives</div>
+    </div>
+    <span class="arrow">›</span>
+  </a>
+
+</div>
+
+</body>
+</html>
